@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css'
-import SceneWindow from './threejspage'
+import {SceneWindow} from './threejspage'
 
 const App = () => {
 
