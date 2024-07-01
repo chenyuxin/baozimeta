@@ -30,8 +30,6 @@ const initWater = (option) => {
     water.position.y = -0.5 //放低0.5米
 	scene.add( water )
 
-    console.log(water)
-
     // const time = performance.now() * 0.001
         
     // const gui = new GUI()
@@ -42,7 +40,7 @@ const initWater = (option) => {
 
 
     // water.material.uniforms[ 'sunDirection' ].value.copy( new THREE.Vector3(1,1,1) ).normalize()
-    water.material.uniforms.size.value = 0.4
+    water.material.uniforms.size.value = 0.4 //水纹大小
 
     animateActions.push(()=>{
         water.material.uniforms[ 'time' ].value += 0.2 / 60.0

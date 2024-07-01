@@ -1,11 +1,12 @@
 // import logo from './logo.svg';
 import './App.css'
+import Menu from './page/menu'
 import {SceneWindow} from './threejspage'
 
 const App = () => {
 
     return (
-        <div className="App">
+        <div className="App" style={{position: 'fixed', zIndex: 10001}}>
             {/* <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
@@ -21,6 +22,7 @@ const App = () => {
                 </a>
             </header> */}
             <SceneWindow></SceneWindow>
+            <Menu></Menu>
             {/* <KeyMouseControl></KeyMouseControl> */}
             {/* <button >testBuuton</button> */}
         </div>

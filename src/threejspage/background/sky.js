@@ -14,7 +14,7 @@ const sunlight = new THREE.DirectionalLight(0x404040) //颜色 光照强度
 sunlight.visible = true //可见
 sunlight.decay = 0 //不随距离衰减
 sunlight.intensity = 100 //光照强度
-sunlight.distance = 450000 //作用距离
+sunlight.distance = 600000 //作用距离
 
 // sunlight.shadow.radius = 3 // 阴影边界的模糊化
 sunlight.castShadow = true //照射出阴影
@@ -29,13 +29,10 @@ sunlight.shadow.camera.right = 100
 sunlight.shadow.camera.top = 100
 sunlight.shadow.camera.bottom = -100
 
-
-
 const hemilight = new THREE.HemisphereLight(0x404040,0x404040,5) //球面环境光，模拟散射
 hemilight.decay = 0 //不随距离衰减
 hemilight.intensity = 10 //光照强度
 const ambientLight = new THREE.AmbientLight( 0x404040 ) // 柔和的白光环境光
-
 
 // const pmremGenerator = new THREE.PMREMGenerator( renderer )
 // const sceneEnv = new THREE.Scene()
@@ -103,7 +100,7 @@ const initSky = (renderer,animateActions,intervalActions,scene,camera) => {
         let elevation = changeSunPosition(0.001) //高度 移动系数 0.001
         if (elevation < -0.6) {
             sunlight.visible = false//不可见
-            renderer.toneMappingExposure = 0.5
+            renderer.toneMappingExposure = 0.5 // 调整曝光度
         } 
         if (elevation < -3) {
             hemilight.visible = false
@@ -127,9 +124,9 @@ const initSky = (renderer,animateActions,intervalActions,scene,camera) => {
             renderer.toneMappingExposure = 0.8
         }
         // console.log('renderer.toneMappingExposure:', renderer.toneMappingExposure)
-        const rayleighX = nor0(elevation, 2, 0.8)//正态分布 瑞丽值在参数二 2度的时候最大
-        effectController.rayleigh = rayleighX*2+0.5
-        effectController.turbidity = rayleighX*8+1
+        const rayleighX = nor0(elevation, 2, 1)//正态分布 瑞丽值在参数二 2度的时候最大
+        effectController.rayleigh = rayleighX*2.5+0.5
+        effectController.turbidity = rayleighX*20+1
         
         const phi = THREE.MathUtils.degToRad( 90 -  elevation)
         let azimuth = effectController.azimuth -= 0.003 //水平移动度数

@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import * as THREE from 'three'
-//import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+// import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import initFirstPersonControls from './util/control/FirstPersonControls'
 import initStats from './util/monitor/Stats'
 import initIntersect from './util/screen/intersected'
 import initSky from './background/sky'
 import initWater from './plane/water/water'
 import HardWood from './plane/floors/wood/hardwood'
-
 
 /**
  * 创建threejs画布占满浏览器Body
@@ -19,8 +18,8 @@ window.addEventListener( 'resize', () => {
 })
 renderer.shadowMap.enabled = true //开启阴影的渲染
 
-
 document.body.appendChild( renderer.domElement )
+//document.getElementById('root').appendChild( renderer.domElement )
 //const canvasDom = React.createElement("canvas", renderer.domElement);
 
 const scene = new THREE.Scene()
@@ -89,8 +88,9 @@ cube2.position.y= 3
 cube2.position.z= 0
 cube2.castShadow = true
 scene.add( cube2 )
+const cube2V = new THREE.Vector3(5,3,2)
 intervalActions.push(()=>{
-    cube2.rotateOnAxis(new THREE.Vector3(5,3,2), 0.0003)
+    cube2.rotateOnAxis( cube2V, 0.0003)
 })
 
 
@@ -100,8 +100,9 @@ const cube3 = new THREE.Mesh( geometry3, material3 )
 cube3.position.set(-6,-0.4,-20)
 cube3.castShadow = true
 scene.add( cube3 )
+const cube3V = new THREE.Vector3(0,1,0)
 intervalActions.push(()=>{
-    cube3.rotateOnAxis(new THREE.Vector3(0,1,0), 0.001)
+    cube3.rotateOnAxis(cube3V, 0.001)
     const time = performance.now() * 0.001;
 	cube3.position.y = Math.sin( time )/3 - 0.4;
 })
@@ -112,11 +113,7 @@ const cube4 = new THREE.Mesh( geometry4, material4 )
 cube4.position.set(6,0.1,10)
 cube4.castShadow = true
 scene.add( cube4 )
-intervalActions.push(()=>{
-    // cube4.rotateOnAxis(new THREE.Vector3(0,1,0), 0.001)
-    // const time = performance.now() * 0.001;
-	// cube4.position.y = Math.sin( time )/3 - 0.4;
-})
+
 
 // const geometry3 = new THREE.SphereGeometry(1)
 // const material3 = new THREE.MeshLambertMaterial( {//MeshBasicMaterial
@@ -165,6 +162,19 @@ intervalActions.push(()=>{
 //     console.error(error)
 // })
 
+// const loader = new GLTFLoader();
+// loader.load(`/3DModel/summer_house.glb`, house => {
+//     const cubeMoon = house.scene
+//     // cubeMoon.scale.set(200,200,200) // 定义导入物体大小
+//     cubeMoon.position.x= 0
+//     cubeMoon.position.y= 0
+//     cubeMoon.position.z= 50
+
+//     scene.add(cubeMoon)
+// }, undefined, error => {
+//     console.error(error)
+// })
+
 
 //初始化功能
 initStats({animateActions}) //性能检测图标工具
@@ -193,9 +203,8 @@ const SceneWindow = (props) => {
     //     renderer.render(scene,camera)
     // },[])
 
-    
     // return <canvas ref={canvasRef} width={props.width} height={props.height} >{renderer.domElement}</canvas>
-    return <Fragment></Fragment>
+    return <Fragment/>
 }
 
 export { SceneWindow }

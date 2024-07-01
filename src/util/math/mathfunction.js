@@ -7,8 +7,8 @@
  * @return y值
  */
 const nor0 = (x,phi,theta) => {
-    const pow = 0 - Math.pow( x-phi, 2) / (Math.pow(theta,2) * 2)
-    return Math.pow( 1/(theta*Math.sqrt(2*Math.PI)) * Math.E , pow)
+    const exp = Math.exp( 0 - Math.pow( x-phi, 2) / (Math.pow(theta,2) * 2) )
+    return 1/(theta*Math.sqrt(2*Math.PI)) * exp
 }
 
 /**
@@ -18,12 +18,12 @@ const nor0 = (x,phi,theta) => {
  * @return y值
  */
 const nor = (x,theta) => {
-    const pow = 0 - Math.pow( x, 2) / (Math.pow(theta,2) * 2)
-    return Math.pow( 1/(theta*Math.sqrt(2*Math.PI)) * Math.E , pow)
+    const exp = Math.exp( 0 - Math.pow( x, 2) / (Math.pow(theta,2) * 2) )
+    return 1/(theta*Math.sqrt(2*Math.PI)) * exp
 }
 
-// const xi = 0.8
-// const mu = 8
+// const xi = 1
+// const mu = 20
 // console.log(nor0(-6,2,xi)*mu+1)
 // console.log(nor0(-5,2,xi)*mu+1)
 // console.log(nor0(-4,2,xi)*mu+1)

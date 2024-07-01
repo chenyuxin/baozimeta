@@ -7,6 +7,15 @@ class KeyListener {
     mouseX = 0
     mouseY = 0
     isKeyDown = new Set()
+    eventTarget = new EventTarget() //事件器，用于外部监听
+
+
+    static mousemove = 'mousemove' //鼠标移动事件
+    static mouseup = 'mouseup' //鼠标按键抬起事件
+    static mousedown = 'mousedown' //鼠标按下事件
+    static wheel = 'wheel' //鼠标滚轮事件
+    static keydown = 'keydown' //键盘按下事件
+    static keyup = 'keyup' //键盘抬起事件
 
     /**
      * 验证按钮是否被按下
@@ -16,28 +25,28 @@ class KeyListener {
      */
     isPushing = (keyCodes) => {
         const pushingKeys = keyCodes.split('+')
+        let hasPushingKeys = true
         if (pushingKeys) {
             pushingKeys.forEach(pushingKey => {
                 if (!this.isKeyDown.has(pushingKey)) {
-                    return false
+                    hasPushingKeys = false
                 }
             })
-            return true
         } else {
-            return false
+            hasPushingKeys = false
         } 
+        return hasPushingKeys
     }
 
     /**
      * 传入listener函数用于虚拟dom的状态更新
-     * @param {Function} listener 
      */
-    constructor(listener){
+    constructor(){
         /**
          * 鼠标事件监听
          */
-        window.addEventListener('mousemove', e => {
-            listener?.mousemove(e.clientX-this.mouseX,e.clientYY-this.mouseY)
+        window.addEventListener(KeyListener.mousemove, e => {
+            //listener?.mousemove(e.clientX-this.mouseX,e.clientYY-this.mouseY)
             this.mouseX = e.clientX
             this.mouseY = e.clientY
             // if (this.isKeyDown.size>0) {   
@@ -46,44 +55,37 @@ class KeyListener {
             // }
         })
 
-        window.addEventListener('mouseup', e => {
+        window.addEventListener(KeyListener.mouseup, e => {
             // console.log('button:', e.button, 'e:', e)
             const mouseCode = `M${e.button}`
             this.isKeyDown.delete(mouseCode)
-            listener?.isKeyDown(this.isKeyDown,mouseCode)
         })
 
-        window.addEventListener('mousedown', e => {
+        window.addEventListener(KeyListener.mousedown, e => {
             const mouseCode = `M${e.button}`
             this.isKeyDown.add(mouseCode)
-            listener?.isKeyDown(this.isKeyDown,mouseCode)
             //console.log(this.mouseX,this.mouseY)
             // if(this.isKeyDown.size>0) {
             //     console.log('button:', e.button,'isKeyDown:', this.isKeyDown,'e:', e)
             // }
         })
 
-        window.addEventListener('wheel', e => {
-            // console.log('wheel:', e, 'deltaX:', e.deltaX, 'deltaY:', e.deltaY)
-            listener?.isMouseWheel(e.deltaX,e.deltaY)
+        window.addEventListener(KeyListener.wheel, e => {
+            //console.log('wheel:', e, 'deltaX:', e.deltaX, 'deltaY:', e.deltaY)
+            //listener?.isMouseWheel(e.deltaX,e.deltaY)
         })
 
         /**
          * 键盘事件监听
          */
-        window.addEventListener('keydown', e => {
-            //debugger
+        window.addEventListener(KeyListener.keydown, e => {
             this.isKeyDown.add(e.code)
-            listener?.isKeyDown(this.isKeyDown,e.code)
-            // if(this.isKeyDown.size>0) {
-            //     console.log('button:', e.button,'isKeyDown:', this.isKeyDown,'e:', e)
-            // }
+            this.handKeyChange(KeyListener.keydown)
         })
 
-        window.addEventListener('keyup', e => {
-            //console.log('button:', e.button, 'e:', e)
+        window.addEventListener(KeyListener.keyup, e => {
             this.isKeyDown.delete(e.code)
-            listener?.isKeyDown(this.isKeyDown,e.code)
+            this.handKeyChange(KeyListener.keyup)
         })            
 
         /**
@@ -107,7 +109,13 @@ class KeyListener {
             this.isKeyDown.clear()
         })
         
+    }
 
+    /**
+     * 按键变化拦截，提供给外部监听
+     */
+    handKeyChange(eventType) {
+        this.eventTarget.dispatchEvent(new CustomEvent(eventType,{detail: eventType}))
     }
    
 }

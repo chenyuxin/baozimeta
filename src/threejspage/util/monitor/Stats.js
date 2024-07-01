@@ -1,6 +1,7 @@
 import Stats from 'three/addons/libs/stats.module.js'
 
 const stats = new Stats()//性能检测工具
+stats.dom.style.left = '50px'
 document.body.appendChild( stats.dom )
 
 /**
