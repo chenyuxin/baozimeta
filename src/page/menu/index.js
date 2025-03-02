@@ -1,25 +1,14 @@
 import { Button, Drawer } from 'antd'
-import React, { useEffect, useState } from 'react'
-import keyListener from '../../util/keycontrol/KeyListener'
+import React, { useState } from 'react'
+import useKeyChanged, { KeyCodes } from '../../util/keycontrol/reactcontrol/ReKeyListener'
 
-const Menu = (_props) => {
+const Menu = _props => {
 
     const [menuOpen,setMenuOpen] = useState(false) 
 
-    const handleKeyChanged = (_event) => {
-        // console.log(_event.detail,keyListener.isKeyDown)
-        // console.log('menuOpen:', menuOpen, 'Escape:', keyListener.isPushing('Escape'))
-        if ( keyListener.isPushing('Escape') ) {
-            setMenuOpen(!menuOpen)
-        }
-    }
-
-    useEffect(() => {
-        keyListener.eventTarget.addEventListener('keydown', handleKeyChanged)
-        
-        return () => {
-            keyListener.eventTarget.removeEventListener('keydown', handleKeyChanged)
-        }
+    useKeyChanged(isPushing => {
+        // console.log('isPushing S:', isPushing([KeyCodes.S, KeyCodes.K]))
+        if ( isPushing(KeyCodes.Esc) ) setMenuOpen(!menuOpen) 
         
     })
 

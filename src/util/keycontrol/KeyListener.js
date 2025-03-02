@@ -9,7 +9,6 @@ class KeyListener {
     isKeyDown = new Set()
     eventTarget = new EventTarget() //事件器，用于外部监听
 
-
     static mousemove = 'mousemove' //鼠标移动事件
     static mouseup = 'mouseup' //鼠标按键抬起事件
     static mousedown = 'mousedown' //鼠标按下事件
@@ -18,24 +17,14 @@ class KeyListener {
     static keyup = 'keyup' //键盘抬起事件
 
     /**
-     * 验证按钮是否被按下
-     * 传入keyCode,多个按键用+号分隔
-     * @param {String} KeyCodes
+     * 验证按钮是否被按下 
+     * 传入keyCode,多个按键用+号分隔 
+     * @param {String || Array} KeyCodes 
      * @returns boolean 
      */
-    isPushing = (keyCodes) => {
-        const pushingKeys = keyCodes.split('+')
-        let hasPushingKeys = true
-        if (pushingKeys) {
-            pushingKeys.forEach(pushingKey => {
-                if (!this.isKeyDown.has(pushingKey)) {
-                    hasPushingKeys = false
-                }
-            })
-        } else {
-            hasPushingKeys = false
-        } 
-        return hasPushingKeys
+    isPushing = (keyCodes=[]) => {
+        keyCodes =  keyCodes instanceof Array ? keyCodes : keyCodes.split('+')
+        return keyCodes.every(key => this.isKeyDown.has(key))
     }
 
     /**
@@ -46,14 +35,13 @@ class KeyListener {
          * 鼠标事件监听
          */
         window.addEventListener(KeyListener.mousemove, e => {
-            //listener?.mousemove(e.clientX-this.mouseX,e.clientYY-this.mouseY)
             this.mouseX = e.clientX
             this.mouseY = e.clientY
             // if (this.isKeyDown.size>0) {   
             //     console.log(`x:${this.mouseX}, y:${this.mouseY}`)
             //     console.log(this.isKeyDown)
             // }
-        })
+        }, { passive: true }) //对于不需要调用 preventDefault() 的事件,启用被动监听以提高滚动和触摸事件的性能
 
         window.addEventListener(KeyListener.mouseup, e => {
             // console.log('button:', e.button, 'e:', e)
@@ -73,7 +61,7 @@ class KeyListener {
         window.addEventListener(KeyListener.wheel, e => {
             //console.log('wheel:', e, 'deltaX:', e.deltaX, 'deltaY:', e.deltaY)
             //listener?.isMouseWheel(e.deltaX,e.deltaY)
-        })
+        }, { passive: true }) //对于不需要调用 preventDefault() 的事件,启用被动监听以提高滚动和触摸事件的性能
 
         /**
          * 键盘事件监听
@@ -112,14 +100,34 @@ class KeyListener {
     }
 
     /**
+     * private <br>
      * 按键变化拦截，提供给外部监听
      */
-    handKeyChange(eventType) {
+    handKeyChange = eventType => {
         this.eventTarget.dispatchEvent(new CustomEvent(eventType,{detail: eventType}))
     }
    
 }
 
+const KeyCodes = {
+    Esc: 'Escape', F1: 'F1', F2: 'F2', F3: 'F3', F4: 'F4', F5: 'F5', F6: 'F6', F7: 'F7', F8: 'F8', F9: 'F9', F10: 'F10', F11: 'F11', F12: 'F12', Ins: 'Insert', Del: 'Delete',
+    Backquote: 'Backquote', 1: 'Digit1', 2: 'Digit2', 3: 'Digit3', 4: 'Digit4', 5: 'Digit5', 6: 'Digit6', 7: 'Digit7', 8: 'Digit8', 9: 'Digit9', 0: 'Digit0', Minus: 'Minus', Equal: 'Equal', Backspace: 'Backspace',
+    A: 'KeyA', B: 'KeyB', C: 'KeyC', D: 'KeyD', E: 'KeyE', F: 'KeyF', G: 'KeyG', H: 'KeyH', I: 'KeyI',
+    J: 'KeyJ', K: 'KeyK', L: 'KeyL', M: 'KeyM', N: 'KeyN', O: 'KeyO', P: 'KeyP', Q: 'KeyQ', R: 'KeyR',
+    S: 'KeyS', T: 'KeyT', U: 'KeyU', V: 'KeyV', W: 'KeyW', X: 'KeyX', Y: 'KeyY', Z: 'KeyZ',
+    Tab: 'Tab', BracketLeft: 'BracketLeft', BracketRight: 'BracketRight', Backslash: 'Backslash',
+    CapsLock: 'CapsLock',/** ; */ Semicolon: 'Semicolon', /** ' */ Quote: 'Quote', Enter: 'Enter', 
+    ShiftLeft: 'ShiftLeft',/** , */ Comma: 'Comma',/** . */ Period: 'Period', /** / */ Slash: 'Slash', ShiftRight: 'ShiftRight', 
+    CtrlLeft: 'ControlLeft', MetaLeft: 'MetaLeft', AltLeft: 'AltLeft', Space: 'Space', AltRight: 'AltRight', CtrlRight: 'ControlRight', 
+    Left: 'ArrowLeft', Up: 'ArrowUp', Down: 'ArrowDown', Right: 'ArrowRight',
+    Home: 'Home', End: 'End', PageUp: 'PageUp', PageDown: 'PageDown', 
+    NumLock: 'NumLock', NumpadDivide: 'NumpadDivide', NumpadMultiply: 'NumpadMultiply', NumpadSubtract: 'NumpadSubtract',
+    NumpadAdd: 'NumpadAdd', NumpadEnter: 'NumpadEnter', NumpadDecimal: 'NumpadDecimal', 
+    Numpad0: 'Numpad0', Numpad1: 'Numpad1', Numpad2: 'Numpad2', Numpad3: 'Numpad3', Numpad4: 'Numpad4', Numpad5: 'Numpad5', Numpad6: 'Numpad6', Numpad7: 'Numpad7', Numpad8: 'Numpad8', Numpad9: 'Numpad9',
+
+}
+
 const keyListener = new KeyListener()
 
 export default keyListener
+export {KeyListener, KeyCodes}

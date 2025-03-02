@@ -3,6 +3,7 @@ import keyListener from '../../../util/keycontrol/KeyListener'
 
 
 const distance = 0.03 //动画移动的比例因素 0.03
+const rotation = distance/3 //动画旋转的比例因素 0.03
 let cameraDirection = new THREE.Vector3() //相机视线方向的向量
 const rightVector = new THREE.Vector3(1, 0, 0);//视线方向的垂直right向量
 const upVector = new THREE.Vector3(0, 1, 0);//视线方向的垂直up向量
@@ -42,11 +43,11 @@ const initFirstPersonControls = option => {
             if (keyListener.isKeyDown.has('KeyA')) {
                 camera.updateWorldMatrix(true,false)
                 upVector.set(matrixWorld[4],matrixWorld[5],matrixWorld[6]).normalize() //视线方向的垂直up向量
-                camera.rotateOnWorldAxis(upVector,distance) //左转
+                camera.rotateOnWorldAxis(upVector,rotation) //左转
             } else if (keyListener.isKeyDown.has('KeyD')) {
                 camera.updateWorldMatrix(true,false)
                 upVector.set(matrixWorld[4],matrixWorld[5],matrixWorld[6]).normalize() //视线方向的垂直up向量
-                camera.rotateOnWorldAxis(upVector,0-distance) //右转
+                camera.rotateOnWorldAxis(upVector,0-rotation) //右转
             }
         
             // if (keyListener.isKeyDown.has('KeyR')) {
