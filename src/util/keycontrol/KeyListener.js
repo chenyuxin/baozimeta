@@ -68,12 +68,12 @@ class KeyListener {
          */
         window.addEventListener(KeyListener.keydown, e => {
             this.isKeyDown.add(e.code)
-            this.handKeyChange(KeyListener.keydown)
+            this.handleKeyChange(KeyListener.keydown)
         })
 
         window.addEventListener(KeyListener.keyup, e => {
             this.isKeyDown.delete(e.code)
-            this.handKeyChange(KeyListener.keyup)
+            this.handleKeyChange(KeyListener.keyup)
         })            
 
         /**
@@ -103,7 +103,7 @@ class KeyListener {
      * private <br>
      * 按键变化拦截，提供给外部监听
      */
-    handKeyChange = eventType => {
+    handleKeyChange = eventType => {
         this.eventTarget.dispatchEvent(new CustomEvent(eventType,{detail: eventType}))
     }
    

@@ -103,8 +103,8 @@ scene.add( cube3 )
 const cube3V = new THREE.Vector3(0,1,0)
 intervalActions.push(()=>{
     cube3.rotateOnAxis(cube3V, 0.001)
-    const time = performance.now() * 0.001;
-	cube3.position.y = Math.sin( time )/3 - 0.4;
+    const time = performance.now() * 0.001
+	cube3.position.y = Math.sin( time )/3 - 0.4
 })
 
 const geometry4 = new THREE.BoxGeometry( 1, 1, 1 )
