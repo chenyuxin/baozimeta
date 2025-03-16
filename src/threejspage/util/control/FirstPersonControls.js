@@ -76,5 +76,10 @@ const initFirstPersonControls = option => {
     
 }
 
+const removeFirstPersonControls = () => {
+    // intervalActions.
+}
+
 export default initFirstPersonControls
 
+export { removeFirstPersonControls }

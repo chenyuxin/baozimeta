@@ -1,6 +1,7 @@
 import { Button, Drawer } from 'antd'
 import React, { useState } from 'react'
 import useKeyChanged, { KeyCodes } from '../../util/keycontrol/reactcontrol/ReKeyListener'
+// import LoginPage from '../sso/LoginPage'
 
 const Menu = _props => {
 
@@ -27,6 +28,9 @@ const Menu = _props => {
             <p>Some contents...</p>
             <p>Some contents...</p>
         </Drawer>
+        {/* <Modal open={menuOpen} onClose={() => setMenuOpen(()=>false)}>
+            <LoginPage />
+        </Modal> */}
     </div>
 }
 

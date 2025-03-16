@@ -7,6 +7,8 @@ import initIntersect from './util/screen/intersected'
 import initSky from './background/sky'
 import initWater from './plane/water/water'
 import HardWood from './plane/floors/wood/hardwood'
+import { createComputer, createKeyboard, createTable } from './util/object_op/ObjectOp'
+import { gameTypingDxerciseBegin } from './games/TypingDxercise'
 
 /**
  * 创建threejs画布占满浏览器Body
@@ -114,6 +116,11 @@ cube4.position.set(6,0.1,10)
 cube4.castShadow = true
 scene.add( cube4 )
 
+createTable(scene,{x:5,y:-0.4,z:15})
+const updateText = createComputer(scene,{x:5,y:1.3,z:14.6})
+createKeyboard(scene, animateActions, {x:5,y:1.3,z:15.4})
+
+gameTypingDxerciseBegin(scene,camera,intervalActions,updateText)
 
 // const geometry3 = new THREE.SphereGeometry(1)
 // const material3 = new THREE.MeshLambertMaterial( {//MeshBasicMaterial
@@ -174,6 +181,8 @@ scene.add( cube4 )
 // }, undefined, error => {
 //     console.error(error)
 // })
+
+
 
 
 //初始化功能
